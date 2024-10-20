@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Records Editor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto Mono', monospace;
+      background-color: #1e1e1e;
+      color: #d4d4d4;
+    }
+
+    h1 {
+      text-align: center;
+      color: #569cd6;
+      padding: 20px;
+    }
+
+    textarea {
+      width: 90%;
+      height: 80vh;
+      margin: 20px auto;
+      display: block;
+      background-color: #1e1e1e;
+      color: #d4d4d4;
+      border: 1px solid #333;
+      padding: 10px;
+      max-height: 500px;
+      font-size: 16px;
+      font-family: 'Roboto Mono', monospace;
+      box-sizing: border-box;
+    }
+
+    button {
+      display: block;
+      margin: 10px auto;
+      background-color: #007acc;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background-color: #005a9e;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Records Editor</h1>
+
+  <textarea id="editor"></textarea>
+  <button id="saveButton">保存</button>
+
+  <script>
+    window.onload = () => {
+      const recordsData = localStorage.getItem('records');
+      document.getElementById('editor').value = recordsData ? JSON.stringify(JSON.parse(recordsData), null, 2) : '{}';
+    };
+
+    document.getElementById('saveButton').addEventListener('click', () => {
+      const editorContent = document.getElementById('editor').value;
+      try {
+        const parsedData = JSON.parse(editorContent);
+
+        localStorage.setItem('records', JSON.stringify(parsedData));
+        alert('ローカルストレージのrecordsが更新されました！');
+      } catch (error) {
+        alert('JSONの形式が正しくありません。');
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.ctrlKey && event.key === 'q') {
+        window.location.href = 'index.html';
+      }
+    });
+  </script>
+</body>
+
+</html>
